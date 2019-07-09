@@ -1,0 +1,7 @@
+CXX=g++
+
+$CXX -o main.cpp 
+
+:CLEAR
+	rm -rf *.o
+	rm -rf TestSQLiteHelper
