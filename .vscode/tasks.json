@@ -8,9 +8,12 @@
             "args": [
                 "/EHsc",
                 "/Zi",
-                "/Fe:",
-                "helloworld.exe",
-                "helloworld.cpp"
+                "/Fe:",                
+                "TestSQLite.exe",
+                "${workspaceFolder}/win32/TestSQLite/TestSQLite.cpp",
+                "${workspaceFolder}/win32/TestSQLite/stdafx.cpp",
+                "${workspaceFolder}/sqlite3.c",
+                "${workspaceFolder}/SQLiteHelper.cpp"
             ],
             "group":  {
                 "kind": "build",
