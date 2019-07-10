@@ -92,4 +92,19 @@ string getTableName(string sql)
 	return szTableName;
 }
 
+inline
+void mbcs2utf8(const char* src, char** dest)
+{
+	int len = MultiByteToWideChar(CP_ACP, 0, src,  -1, 0, 0);
+	wchar_t *szWcsBuf = new wchar_t[len + 1];
+	memset(szWcsBuf, 0, sizeof(wchar_t)*(len + 1));
+	MultiByteToWideChar(CP_ACP, 0, src, -1, szWcsBuf, len);
+	len = WideCharToMultiByte(CP_UTF8, 0, szWcsBuf, -1, NULL, 0, 0, 0);
+	*dest = new char[len + 1];
+	memset(dest, 0, len + 1);
+	WideCharToMultiByte(CP_UTF8, 0, szWcsBuf, -1, *dest, len, 0, 0);
+	delete[]szWcsBuf;
+}
+
+
 #endif

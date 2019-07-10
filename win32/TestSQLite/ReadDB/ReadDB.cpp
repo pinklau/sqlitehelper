@@ -5,19 +5,11 @@
 #include "ReadDB.h"
 
 
-// This is an example of an exported variable
-READDB_API int nReadDB=0;
-
-
-// This is an example of an exported function.
-READDB_API int fnReadDB(void)
-{
-    return 42;
-}
 
 // This is the constructor of a class that has been exported.
 // see ReadDB.h for the class definition
 CReadDB::CReadDB()
+	:m_nIndex(-1)
 {
     return;
 }
@@ -69,13 +61,27 @@ double CReadDB::ValueToDouble(const int index)
 	return val;
 }
 
+BOOL CReadDB::ValueToBool(const int index)
+{
+	BOOL bRet = FALSE;
+
+	return bRet;
+}
+
+BOOL CReadDB::ValueToString(const int index, LPCTSTR pszBuf, UINT size)
+{
+	BOOL bRet = FALSE;
+
+	return bRet;
+}
+
 int CReadDB::IndexOf(LPCTSTR pszFieldName)
 {
 
 	return -1;
 }
 
-BOOL CReadDB::Exce(LPCTSTR pszSQL)
+BOOL CReadDB::Exce(LPCTSTR pszSQL, int type, CReadDB* pRecordset)
 {
 	BOOL bRet = FALSE;
 	
@@ -85,13 +91,43 @@ BOOL CReadDB::Exce(LPCTSTR pszSQL)
 BOOL CReadDB::First()
 {
 	BOOL bRet = FALSE;
-
+	m_nIndex = 0;
+	if (m_res.size())
+		bRet = TRUE;
 	return bRet;
 }
 
 BOOL CReadDB::Next()
 {
 	BOOL bRet = FALSE;
+	m_nIndex++;
+	if (m_nIndex < m_res.size())
+		bRet = TRUE;
+	return bRet;
+}
+
+BOOL CReadDB::ValueToBlob(const int index, BYTE* buf, UINT size)
+{
+	BOOL bRet = FALSE;
 
 	return bRet;
+}
+
+BOOL CReadDB::Init()
+{
+	BOOL bRet = FALSE;
+
+	return bRet;
+}
+
+BOOL CReadDB::Release()
+{
+	BOOL bRet = FALSE;
+
+	return bRet;
+}
+
+void CReadDB::SetConf(LPCTSTR pszPath)
+{
+
 }
