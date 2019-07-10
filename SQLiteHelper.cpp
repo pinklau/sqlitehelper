@@ -1,6 +1,6 @@
 #include "SQLiteHelper.h"
 #include <algorithm> 
-
+#include "CSQLiteString.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <shlwapi.h>
@@ -13,7 +13,13 @@
 CSQLiteHelper::CSQLiteHelper()
 :m_pDB(NULL)
 ,m_nError(0)
-
+#if defined(UNICODE) || defined(_UNICODE)
+,m_strPath(L"")
+,m_strQuery(L"")
+#else
+, m_strPath("")
+, m_strQuery("")
+#endif
 {
 
 }
@@ -85,6 +91,9 @@ void CSQLiteHelper::setDatabasePath(SLiteString strPath)
 
 bool CSQLiteHelper::exec(SLiteString strQuery)
 {
+	if (!isOpen())
+		return false;
+
 	char* errMsg = NULL;
 	int err = -1;
 	transform(strQuery.begin(), strQuery.end(), strQuery.begin(), ::tolower);
@@ -109,7 +118,13 @@ bool CSQLiteHelper::exec(SLiteString strQuery)
 			index++;
 		}
 		sqlite3_finalize(st);
-		getFields(getTableName(sql));
+		string szTable = getTableName(sql);
+		getFields(szTable);
+#if defined(UNICODE) || defined(_UNICODE)
+		m_records.setTableName(convert2Wchar(szTable.data()));
+#else
+		m_records.setTableName(szTable);
+#endif
 	}
 	else
 	{
@@ -126,14 +141,13 @@ bool CSQLiteHelper::exec(SLiteString strQuery)
 }
 
 bool CSQLiteHelper::exec()
-{
-
-	return false;
+{	
+	return exec(m_strQuery);
 }
 
 void CSQLiteHelper::prepare(SLiteString strQuery)
 {
-
+	m_strQuery = strQuery;
 }
 
 bool CSQLiteHelper::tableExist(SLiteString strTableName)
@@ -184,78 +198,57 @@ bool CSQLiteHelper::getFields(string szTableName)
 	return bRet;
 }
 
-
-CSQLiteRecords::CSQLiteRecords()
+bool CSQLiteHelper::begin()
 {
-
-}
-
-CSQLiteRecords::~CSQLiteRecords()
-{
-
-}
-
-int CSQLiteRecords::results(void*para, int nCount, char** pValue, char** pName)
-{
-
-	for (int i = 0; i < nCount; i++)
+	if (isOpen())
 	{
-		printf("field name=%s, value=%s\n", pName[i], pValue[i]);
+		return exec("begin transaction");
 	}
-	return 0;
+	return false;
 }
 
-int CSQLiteRecords::count()
+bool CSQLiteHelper::commit()
 {
-	return 0;
-}
-
-void CSQLiteRecords::clear()
-{
-	int nCount = m_res.size();
-	for (int i = 0; i < nCount; i++)
+	if (isOpen())
 	{
-		if (m_res[i])
-		{
-			delete m_res[i];
-		}
+		return exec("commit transaction");
 	}
-	m_res.clear();
+	return false;
 }
 
-void CSQLiteRecords::append(int row, int col, int fieldType, const unsigned char* data)
+bool CSQLiteHelper::rollback()
 {
-	switch (fieldType)
+	if (isOpen())
 	{
-	case SQLITE_INTEGER:
-		printf("%d ", atoi((const char*)data));
-		break;
-
-	case SQLITE_FLOAT:
-		printf("%f ", atof((const char*)data));
-		break;
-
-	case SQLITE_TEXT:
-		printf("%s ", data);
-		
-		break;
-
-	case SQLITE_BLOB:
-		break;
-
-	case SQLITE_NULL:
-		break;
-
-	default:
-		break;
+		return exec("rollback transaction");
 	}
+	return false;
 }
 
-void CSQLiteRecords::appendFieldName(int index, const char* szFieldName)
+bool CSQLiteHelper::exec(const char* sql)
 {
-#if defined(UNICODE) || defined(_UNICODE)
-	m_fieldNames[convert2Wchar(szFieldName)] = index;
-#else
-	m_fieldNames[szFieldName] = index;
-#endif
+	char* errMsg = NULL;
+	int err = sqlite3_exec(m_pDB, sql, 0, 0, &errMsg);
+	if (err == SQLITE_OK)
+		return true;
+	return false;
+}
+
+bool CSQLiteHelper::offSynchronous(bool bOff)
+{
+	char* sql;
+	if (bOff)
+	{
+		sql = "PRAGMA synchronous = OFF";
+	}
+	else
+	{
+		sql = "PRAGMA synchronous = FULL";
+	}
+	return exec(sql);
+}
+
+CSQLiteRecords& CSQLiteHelper::record()
+{
+	return m_records;
 }

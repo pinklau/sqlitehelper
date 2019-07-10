@@ -6,6 +6,7 @@
 #include <string.h>
 #include <wchar.h>
 #include <locale.h>
+#include "SQLiteTypes.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
@@ -14,40 +15,6 @@
 
 #endif
 
-
-template<class T>
-class CSQLiteString : public T
-{
-public:
-    CSQLiteString(){
-
-    }
-
-    ~CSQLiteString(){
-
-    }
-
-	int toInt()
-	{
-		int val = 0;
-
-		return val;
-	}
-
-	double toDouble()
-	{
-		double val = 0;
-		return val;
-	}
-
-	float toFloat()
-	{
-		float val = 0;
-		return val;
-	}
-
-
-};
 
 inline
 std::wstring convert2Wchar(const char* datas)
@@ -85,5 +52,44 @@ std::string convert2Char(const wchar_t* datas)
     return str;
 }
 
+inline string convertString(SLiteString strString)
+{
+	string str;
+#if defined(UNICODE) || defined(_UNICODE)
+	str = convert2Char(strString.data());
+#else
+	str = strString;
+#endif
+	return str;
+}
+
+inline
+string getTableName(string sql)
+{
+	string szTableName = "";
+	int pos = sql.rfind("from");
+	if (pos != string::npos)
+	{
+		char * sz = NULL;
+		int size = 0;
+		pos += 5;
+		int space = sql.find(' ', pos);
+		if (space != string::npos) size = space - pos + 1;
+		else size = sql.length() - pos + 1;
+
+		if (size < 1) return szTableName;
+
+		sz = new char[size];
+		memset(sz, 0, size);
+#if defined(_WIN32) || defined(_WIN64)
+		sql._Copy_s(sz, size, size - 1, pos);
+#else
+		sql.copy(sz, size, pos);
+#endif
+		szTableName = sz;
+		delete[]sz;
+	}
+	return szTableName;
+}
 
 #endif

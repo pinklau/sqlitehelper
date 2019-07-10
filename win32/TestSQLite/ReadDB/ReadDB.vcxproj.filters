@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="SQLiteHelper">
-      <UniqueIdentifier>{5d885350-e22e-416f-8e1d-4ba2ac644e4e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -27,28 +24,19 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CSQLiteString.h">
-      <Filter>SQLiteHelper</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\SQLiteHelper.h">
-      <Filter>SQLiteHelper</Filter>
+    <ClInclude Include="ReadDB.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestSQLite.cpp">
+    <ClCompile Include="ReadDB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\sqlite3.c">
-      <Filter>SQLiteHelper</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\SQLiteHelper.cpp">
-      <Filter>SQLiteHelper</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\SQLiteRecords.cpp">
-      <Filter>SQLiteHelper</Filter>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
