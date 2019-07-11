@@ -149,6 +149,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdoHelper.h" />
+    <ClInclude Include="ConfigureParser.h" />
     <ClInclude Include="ReadDB.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -157,6 +159,8 @@
     <ClCompile Include="..\..\..\sqlite3.c" />
     <ClCompile Include="..\..\..\SQLiteHelper.cpp" />
     <ClCompile Include="..\..\..\SQLiteRecords.cpp" />
+    <ClCompile Include="AdoHelper.cpp" />
+    <ClCompile Include="ConfigureParser.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

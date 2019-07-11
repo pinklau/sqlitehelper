@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "ReadDB.h"
 
-
+extern TCHAR g_szConfPath[MAX_PATH];
 
 // This is the constructor of a class that has been exported.
 // see ReadDB.h for the class definition
@@ -129,5 +129,7 @@ BOOL CReadDB::Release()
 
 void CReadDB::SetConf(LPCTSTR pszPath)
 {
-
+	int len = lstrlen(pszPath)*sizeof(TCHAR);
+	int size = sizeof(TCHAR)*(MAX_PATH);
+	memcpy(g_szConfPath, pszPath, len < size ? len : size - 1);
 }

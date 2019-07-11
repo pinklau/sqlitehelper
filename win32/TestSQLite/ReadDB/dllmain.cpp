@@ -1,8 +1,10 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "stdafx.h"
 #include "ReadDB.h"
+#include "../../Common/Ado/ado2.h"
 
-
+static TCHAR g_szConfPath[MAX_PATH] = { 0 };
+CADODatabase* g_Adodb;
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,

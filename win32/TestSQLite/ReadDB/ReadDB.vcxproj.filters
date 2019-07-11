@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Ado">
+      <UniqueIdentifier>{a2359d79-c629-4610-8a8e-1385f7a4cff0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -25,6 +28,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ReadDB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigureParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdoHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -45,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\SQLiteRecords.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigureParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AdoHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

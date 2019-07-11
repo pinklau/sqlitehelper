@@ -98,6 +98,7 @@ private:
 	deque<map<int,string>*> m_res;
 	map<string, int> m_fieldsName;
 #endif
+
 	int m_nIndex;
 };
 
